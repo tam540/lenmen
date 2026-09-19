@@ -93,7 +93,6 @@ button:disabled { background-color: #a0b2b0; cursor: not-allowed; }
     <div class="info-tip">💡 <b>HƯỚNG DẪN TIẾP THEO:</b><br><br>1. Mở App Ngân hàng, chọn tính năng quét QR và tải ảnh vừa lưu lên.<br>2. Bạn <b>không cần quay lại</b> trang này. Sau khi thanh toán thành công, hệ thống sẽ tự động gửi Email cấp quyền khóa học cho bạn.</div>
   </div>
 </div>
-
 <script>
   // Lấy mã đối tác từ URL (ví dụ: ?ref=kikubara)
   const urlParams = new URLSearchParams(window.location.search);
@@ -113,7 +112,7 @@ button:disabled { background-color: #a0b2b0; cursor: not-allowed; }
       partnerCode: CURRENT_PARTNER
     };
 
-    // 🔴🔴🔴 QUAN TRỌNG: THAY ĐƯỜNG LINK DƯỚI ĐÂY BẰNG URL WEB APP MỚI CỦA BẠN 🔴🔴🔴
+    // 🔴🔴🔴 QUAN TRỌNG: SAU KHI DEPLOY GOOGLE SCRIPT MỚI, HÃY DÁN LINK WEB APP MỚI VÀO ĐÂY 🔴🔴🔴
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbza2RNRPRWq4G7mHCrQMfXmKjfxlZDhn2JROxR5YPZSEv0Lu_kexaChJe2WydG13Oy4/exec";
 
     fetch(WEB_APP_URL, {
@@ -139,13 +138,15 @@ button:disabled { background-color: #a0b2b0; cursor: not-allowed; }
         }
       } catch (parseError) {
         console.error("Lỗi trả về từ Google Script:", text);
-        alert("Hệ thống xử lý Google Sheet đang báo lỗi. Vui lòng thử lại sau.");
+        // Đã sửa lại câu thông báo thân thiện hơn khi báo mã giảm giá hoặc phản hồi chậm
+        alert(text.includes("Mã giảm giá") ? text : "Hệ thống Google Sheet phản hồi chậm. Vui lòng thử lại!");
         btn.innerText = "ĐĂNG KÝ & THANH TOÁN"; btn.disabled = false;
       }
     })
     .catch(err => {
       console.error("Lỗi Fetch Mạng:", err);
-      alert("Lỗi kết nối mạng cục bộ. Vui lòng kiểm tra lại mạng và thử lại!");
+      // Đã sửa lại câu thông báo thân thiện hơn thay cho báo lỗi mạng cục bộ
+      alert("Đã xảy ra lỗi kết nối với máy chủ. Vui lòng kiểm tra lại mạng hoặc tải lại trang web!");
       btn.innerText = "ĐĂNG KÝ & THANH TOÁN"; btn.disabled = false;
     });
   }
